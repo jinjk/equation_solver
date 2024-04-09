@@ -1,9 +1,8 @@
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt
 
-image_path = '/home/jjin/workspace/equation_solver/hw01.jpg'
-
-def readDigitsFromImg():
+def readDigitsFromImg(image_path, kernel):
     # Read the image
     image = cv2.imread(image_path)
 
@@ -11,7 +10,7 @@ def readDigitsFromImg():
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Binarize the image, black background and white digits
-    _, binary = cv2.threshold(gray,127, 255,cv2.THRESH_BINARY_INV)
+    _, binary = cv2.threshold(gray,200, 255,cv2.THRESH_BINARY_INV)
 
     # remove small stains from image {{
     nlabels, labels, stats, centroids = cv2.connectedComponentsWithStats( \
@@ -24,26 +23,61 @@ def readDigitsFromImg():
     # }}
 
     # get the outside contours of the digits {{
-    kernel = np.ones((30, 30), np.uint8)
     closing = cv2.morphologyEx(cleaned, cv2.MORPH_CLOSE, kernel)
     dilated = cv2.dilate(closing, kernel)
-    contours,_ = cv2.findContours(dilated, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours,_ = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    rects = [cv2.boundingRect(cnt) for cnt in contours]
     # }}
 
 
     # Get digit images with white background {{
+    rects = sorted(rects, key=lambda r: r[1])
+    rectList = []
+    row = []
+    for i in range(0, len(rects)):
+        row.append(rects[i])
+        if (i+1) % 10 == 0 and i != 0 or i == len(rects) - 1:
+            print(f'i -> {i}')
+            row = sorted(row, key=lambda c: c[0])
+            rectList.append(row)
+            row = []
+
+    # find contours in a row
+    
+    i = 0
+    maxH = -1
+    for row in rectList:
+        for r in row:
+            x, y, w, h = r
+            maxH = max(maxH, h)
+            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.putText(image, str(i) + ',' + str(y), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+            i += 1
+    # plt.imshow(image)
+    # plt.show()
+
+    print(len(rectList))
+    print(maxH)
     digitImgs = []
-    contours = sorted(contours, key=lambda x: cv2.boundingRect(x)[0])
-    h = max([cv2.boundingRect(cnt)[3] for cnt in contours])
-    for cnt in contours:
-        x, y, w, _ = cv2.boundingRect(cnt)
-        oriDigImg = image[y:y+h, x:x+w].copy()
-        oriDigImg[(binary[y:y+h, x:x+w]==0)] = 255
-        digitImgs.append(oriDigImg)
+    for row in rectList:
+        for r in row:
+            x, y, w, _ = r
+            oriDigImg = image[y:y+maxH, x:x+w].copy()
+            oriDigImg[(binary[y:y+maxH, x:x+w]==0)] = 255
+            digitImgs.append(oriDigImg)
     # }}
 
     return digitImgs
 
+def printCnt(image, cnts):
+    for cnt in cnts:
+        x, y, w, h = cv2.boundingRect(cnt)
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    plt.imshow(image)
+    plt.show()
 # Example usage
+if __name__ == '__main__':
+    digits_file_path = '/home/jjin/workspace/equation_solver/hw02.png'
+    kernel = np.ones((30, 30), np.uint8)
+    readDigitsFromImg(digits_file_path, kernel)
 
-readDigitsFromImg()
