@@ -1,7 +1,11 @@
 FROM python:3.12.3-slim-bullseye
 # copy all the files in this dir to image
 # execute install script
-COPY . .
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get update
+RUN apt-get install tesseract-ocr libtesseract-dev tesseract-ocr-eng -y
+RUN apt-get install python3-opencv -y
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+COPY . /root/webapp/
+WORKDIR /root/webapp/
 CMD ["python", "web/flask_app.py"]

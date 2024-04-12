@@ -29,9 +29,10 @@ def upload_file():
         file.save(filePath)
         todoCount = request.form.get('todoCount')
         fontSize = request.form.get('fontSize')
-        eqs.writeAnswerToPDF(filePath, int(fontSize), int(todoCount))
+
+        fileName = eqs.writeAnswerToPDF(filePath, int(fontSize), int(todoCount))
         respBody = {
-            'pdf': url_for('static', filename='result.pdf')
+            'pdf': url_for('static', filename=f'{fileName}.pdf')
         }
         return jsonify(respBody)
     
@@ -41,4 +42,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8080)

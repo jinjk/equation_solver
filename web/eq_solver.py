@@ -8,6 +8,7 @@ import pytesseract
 import random
 import re
 import sys
+import datetime
 
 import xml.etree.ElementTree as ET
 import config
@@ -48,7 +49,7 @@ def readEquationsFromImage(image):
     data = parseXml(xmlData.decode('utf-8'))
     return data
 
-def evaluateEquations(data: List[Pos], image, digits, a, b, skip=0):
+def evaluateEquations(data: List[Pos], image, digits, a, b, outputFileName, skip=0):
     ih, iw, _ = image.shape
     itemIdx = -1
     for item in data:
@@ -79,11 +80,11 @@ def evaluateEquations(data: List[Pos], image, digits, a, b, skip=0):
         w = rx2 - rx
         image[ry:ry+h, rx:rx+w] = img[:h, :w]
 
-    path = f'{config.static}/result.png'
+    path = f'{config.static}/{outputFileName}.png'
     cv2.imwrite(path, image)
-    image_1 = Image.open(f'{config.static}/result.png')
+    image_1 = Image.open(f'{config.static}/{outputFileName}.png')
     im_1 = image_1.convert('RGB')
-    im_1.save(f'{config.static}/result.pdf')
+    im_1.save(f'{config.static}/{outputFileName}.pdf')
     config.showImg(image)
 
 def strToImg(str, imgs):
@@ -123,7 +124,9 @@ def writeAnswerToPDF(img_path, fontSize, todoCount):
     data = readEquationsFromImage(image)
     kernel = np.ones((20, 20), np.uint8)
     digits = readDigitsFromImg(config.hw02, kernel)
-    evaluateEquations(data, image, digits, 0.05, fontSize/100, skip=todoCount)
+    outputFileName = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+    evaluateEquations(data, image, digits, 0.05, fontSize/100,  outputFileName, skip=todoCount)
+    return outputFileName
 
 # Example usage
 if __name__ == '__main__':
@@ -138,4 +141,5 @@ if __name__ == '__main__':
     data = readEquationsFromImage(image)
     kernel = np.ones((20, 20), np.uint8)
     digits = readDigitsFromImg(config.hw02, kernel)
-    evaluateEquations(data, image, digits, 0.05, 0.25)
+    outputFileName = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+    evaluateEquations(data, image, digits, 0.05, 0.25, outputFileName)
