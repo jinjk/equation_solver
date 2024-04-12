@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+import config as config
 
 def readDigitsFromImg(image_path, kernel):
     # Read the image
@@ -53,8 +53,6 @@ def readDigitsFromImg(image_path, kernel):
             cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
             cv2.putText(image, str(i) + ',' + str(y), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
             i += 1
-    # plt.imshow(image)
-    # plt.show()
 
     print(len(rectList))
     print(maxH)
@@ -73,11 +71,11 @@ def printCnt(image, cnts):
     for cnt in cnts:
         x, y, w, h = cv2.boundingRect(cnt)
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    plt.imshow(image)
-    plt.show()
+    config.showImg(image)
+
 # Example usage
 if __name__ == '__main__':
-    digits_file_path = '/home/jjin/workspace/equation_solver/hw02.png'
     kernel = np.ones((30, 30), np.uint8)
-    readDigitsFromImg(digits_file_path, kernel)
-
+    imgs = readDigitsFromImg(config.hw02, kernel)
+    config.showImgs(imgs)
+    

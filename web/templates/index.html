@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="static/ui/semantic.min.css">
+    <script
+    src="static/js/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="static/ui/semantic.min.js"></script>
+    <title>Gen res</title>
+</head>
+<body>
+    <h1>Upload File</h1>
+    <form class="ui form">
+        <div class="field">
+            <label>Select Image File</label>
+            <input type="file" name="file" accept="image/*">
+        </div>
+        <div class="field">
+            <label>Todo Count</label>
+            <input type="number" name="todoCount" min="0" max="50" value="10">
+        </div>
+        <div class="field">
+            <label>Font Size</label>
+            <input type="number" name="fontSize" min="0" max="100" value="25">
+        </div>
+        </div>
+        <input class="ui button" type="submit" value="Upload">
+    </form>
+    <script>
+        $('form').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData();
+            formData.append('file', $('input[type=file]')[0].files[0]);
+            formData.append('todoCount', $('input[name=todoCount]').val());
+            formData.append('fontSize', $('input[name=fontSize]').val());
+            $.ajax({
+                url: '/evalEq',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    $(location).attr('href',data.pdf);
+                }
+            });
+        });
+    </script>
+</html>

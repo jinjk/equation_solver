@@ -10,6 +10,7 @@ import re
 import sys
 
 import xml.etree.ElementTree as ET
+import config
 
 @dataclass
 class Pos:
@@ -20,7 +21,7 @@ class Pos:
     text: str
 
 def parseXml(xml_string):
-    # Parse the XML string
+    # Parse the XML stringconfig
     root = ET.fromstring(xml_string)
     # Create a list to store the data
     items = []
@@ -39,8 +40,7 @@ def parseXml(xml_string):
 
     return items
 
-def readEquationsFromImage(image_path):
-    image = cv2.imread(image_path)
+def readEquationsFromImage(image):
     xmlData = pytesseract.image_to_alto_xml(image, 
         config='--oem 3 -c tessedit_char_whitelist=0123456789Xx=÷')
     # read xmlData get equations and postions
@@ -48,8 +48,7 @@ def readEquationsFromImage(image_path):
     data = parseXml(xmlData.decode('utf-8'))
     return data
 
-def evaluateEquations(data: List[Pos], image_path, digits, a, b, skip=0):
-    image = cv2.imread(image_path)
+def evaluateEquations(data: List[Pos], image, digits, a, b, skip=0):
     ih, iw, _ = image.shape
     itemIdx = -1
     for item in data:
@@ -69,21 +68,23 @@ def evaluateEquations(data: List[Pos], image_path, digits, a, b, skip=0):
         # overlay the image
         # add img to image use addWeighted
         x, y = item.x, item.y
-        print(item.x, item.y, w, h)
-        print(image[y:y+h, x+w:x+w*2].shape)
-        print(img[:h, :w].shape)
+        # print(item.x, item.y, w, h)
+        # print(image[y:y+h, x+w:x+w*2].shape)
+        # print(img[:h, :w].shape)
         rx = x+item.w
-        ry = y
+        ry = y - int(h * 0.2)
         ry2 = min(ry+h, ih)
         rx2 = min(rx+w, iw)
         h = ry2 - ry
         w = rx2 - rx
         image[ry:ry+h, rx:rx+w] = img[:h, :w]
 
-    cv2.imwrite('result.png', image)
-    image_1 = Image.open(r'./result.png')
+    path = f'{config.static}/result.png'
+    cv2.imwrite(path, image)
+    image_1 = Image.open(f'{config.static}/result.png')
     im_1 = image_1.convert('RGB')
-    im_1.save(r'result.pdf')
+    im_1.save(f'{config.static}/result.pdf')
+    config.showImg(image)
 
 def strToImg(str, imgs):
     img = None
@@ -97,10 +98,32 @@ def strToImg(str, imgs):
             img = imgs[idx].copy()
         else:
             img = cv2.hconcat([img[:, :-5], imgs[idx][:, 5:]])
-    w, h, *_ = img.shape
-    print(w, h)
+        img = shake(img)
+    # w, h, *_ = img.shape
+    # print(w, h)
     return img
 
+def shake(img):
+    f1 = random.randint(90, 100) / 100.0
+    f2 = random.randint(90, 100) / 100.0
+    shaked = img.copy()
+    shaked.fill(255)
+    img = cv2.resize(img, (0, 0), fx = f1, fy = f2, interpolation=cv2.INTER_CUBIC)
+    angle = random.randint(0, 5)
+    M = cv2.getRotationMatrix2D((img.shape[1] / 2, img.shape[0] / 2), angle, 1)
+    img = cv2.warpAffine(img, M, (img.shape[1], img.shape[0]), borderValue=(255,255,255))
+    y, x, _ = tuple((np.subtract(shaked.shape, img.shape)/2).astype(int))
+    shaked[y:y+img.shape[0], x:x+img.shape[1]] = img[:]
+    return shaked
+
+
+def writeAnswerToPDF(img_path, fontSize, todoCount):
+    image = cv2.imread(img_path)
+    image = cv2.resize(image, (0, 0), fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
+    data = readEquationsFromImage(image)
+    kernel = np.ones((20, 20), np.uint8)
+    digits = readDigitsFromImg(config.hw02, kernel)
+    evaluateEquations(data, image, digits, 0.05, fontSize/100, skip=todoCount)
 
 # Example usage
 if __name__ == '__main__':
@@ -108,11 +131,11 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         image_path = sys.argv[1]
     else:
-        # image_path = '/home/jjin/workspace/equation_solver/3.jpg'
         print("Please provide an image path as a command line argument.")
         sys.exit(1)
-    digits_file_path = '/home/jjin/workspace/equation_solver/hw02.png'
-    data = readEquationsFromImage(image_path)
+    image = cv2.imread(image_path)
+    image = cv2.resize(image, (0, 0), fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
+    data = readEquationsFromImage(image)
     kernel = np.ones((20, 20), np.uint8)
-    digits = readDigitsFromImg(digits_file_path, kernel)
-    evaluateEquations(data, image_path, digits, 0.02, 0.3)
+    digits = readDigitsFromImg(config.hw02, kernel)
+    evaluateEquations(data, image, digits, 0.05, 0.25)
