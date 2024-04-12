@@ -7,6 +7,7 @@ rootPath = dirname(dirname(abspath(__file__)))
 resources = os.path.join(rootPath, 'resources')
 hw02 = os.path.join(resources, 'hw02.png')
 static = os.path.join(rootPath, 'web', 'static')
+out = os.path.join(static, 'out')
 upload = os.path.join(rootPath, 'upload')
 
 def showImg(img):

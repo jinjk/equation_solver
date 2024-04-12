@@ -32,7 +32,7 @@ def upload_file():
 
         fileName = eqs.writeAnswerToPDF(filePath, int(fontSize), int(todoCount))
         respBody = {
-            'pdf': url_for('static', filename=f'{fileName}.pdf')
+            'pdf': url_for('static', filename=f'out/{fileName}.pdf')
         }
         return jsonify(respBody)
     

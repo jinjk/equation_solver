@@ -80,11 +80,11 @@ def evaluateEquations(data: List[Pos], image, digits, a, b, outputFileName, skip
         w = rx2 - rx
         image[ry:ry+h, rx:rx+w] = img[:h, :w]
 
-    path = f'{config.static}/{outputFileName}.png'
+    path = f'{config.out}/{outputFileName}.png'
     cv2.imwrite(path, image)
-    image_1 = Image.open(f'{config.static}/{outputFileName}.png')
+    image_1 = Image.open(f'{config.out}/{outputFileName}.png')
     im_1 = image_1.convert('RGB')
-    im_1.save(f'{config.static}/{outputFileName}.pdf')
+    im_1.save(f'{config.out}/{outputFileName}.pdf')
     config.showImg(image)
 
 def strToImg(str, imgs):
