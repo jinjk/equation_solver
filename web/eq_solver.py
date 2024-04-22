@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from digits_reader import readDigitsFromImg
-from PIL import Image
+import img2pdf
 from typing import List
 import cv2
 import numpy as np
@@ -43,7 +43,7 @@ def parseXml(xml_string):
 
 def readEquationsFromImage(image):
     xmlData = pytesseract.image_to_alto_xml(image, 
-        config='--oem 3 -c tessedit_char_whitelist=0123456789Xx=÷')
+        config='--oem 3 -c tessedit_char_whitelist=0123456789+-Xx÷=')
     # read xmlData get equations and postions
     #
     data = parseXml(xmlData.decode('utf-8'))
@@ -59,7 +59,9 @@ def evaluateEquations(data: List[Pos], image, digits, a, b, outputFileName, skip
         eq = item.text.lower()
         eq = re.sub(r'x+', '*', eq)
         eq = re.sub(r'÷+', '/', eq).replace('=', '')
+        print(f'{item.text}')
         res = eval(eq)
+        res = round(res, 2)
         print(f'{item.text} {res}')
         img = strToImg(str(res), digits)
         r = (item.w / img.shape[1]) * a + b
@@ -82,9 +84,8 @@ def evaluateEquations(data: List[Pos], image, digits, a, b, outputFileName, skip
 
     path = f'{config.out}/{outputFileName}.png'
     cv2.imwrite(path, image)
-    image_1 = Image.open(f'{config.out}/{outputFileName}.png')
-    im_1 = image_1.convert('RGB')
-    im_1.save(f'{config.out}/{outputFileName}.pdf')
+    with open(f'{config.out}/{outputFileName}.pdf', "wb") as f:
+        f.write(img2pdf.convert(path))
     config.showImg(image)
 
 def strToImg(str, imgs):
@@ -134,8 +135,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         image_path = sys.argv[1]
     else:
-        print("Please provide an image path as a command line argument.")
-        sys.exit(1)
+        image_path = config.rootPath + '/div2.png'
     image = cv2.imread(image_path)
     image = cv2.resize(image, (0, 0), fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
     data = readEquationsFromImage(image)

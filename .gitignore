@@ -1,1 +1,4 @@
 web/static/out/*
+lib/*
+lib64/*
+include/*
