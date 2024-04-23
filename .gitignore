@@ -1,4 +1,6 @@
-web/static/out/*
-lib/*
-lib64/*
-include/*
+web/static/out/
+lib/
+lib64/
+include/
+__pycache__/
+
