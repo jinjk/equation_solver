@@ -6,7 +6,7 @@ RUN apt-get install tesseract-ocr libtesseract-dev tesseract-ocr-eng -y
 RUN apt-get install python3-opencv -y
 COPY requirements.txt .
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt
-RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir img2pdf
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir img2pdf pdf2image
 RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 RUN pip install texify
 COPY . /root/webapp/
