@@ -4,3 +4,6 @@ lib64/
 include/
 __pycache__/
 venv/
+cache/
+data/
+model-cache/
