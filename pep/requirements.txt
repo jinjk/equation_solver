@@ -1,0 +1,11 @@
+certifi==2024.2.2
+cffi==1.16.0
+charset-normalizer==3.3.2
+cryptography==42.0.7
+idna==3.7
+pycparser==2.22
+PyYAML==6.0.1
+requests==2.32.2
+tencentcloud-sdk-python-common==3.0.1155
+tencentcloud-sdk-python-ocr==3.0.1155
+urllib3==2.2.1
