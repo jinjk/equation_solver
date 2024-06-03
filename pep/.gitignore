@@ -1,3 +1,2 @@
-Include/
-Lib/
-Scripts/
+.venv/
+imgs/

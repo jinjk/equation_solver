@@ -2,3 +2,5 @@ tencent.ocr:
   region: ap-beijing
   secret_id: gAAAAABmVVSZPv2djUhkPRHNleQHk_wEYZGJ69gh90IHMkJ8OlrzwsMymEmWwqGn8Wy4iDnlqwlwh0MDblmROfBYQNJROnR1wJSZkr49le3327L3P7xTc24xO0gtdIQw7Sdxy7PzJxY6
   secret_key: gAAAAABmVVS8jaSLo5CeX5x2OQ8NerXpDHWNfKGukeoHgGTQWAWBmK2IekPeubh8JYHqe_KaMe-vdA5FwnVDaAy7DD10Yr1lqqqg-53F-P4kEjmeRO1NAJ3xY9pzs3nQMh4yZuuGALGu
+
+imgs: imgs

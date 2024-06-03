@@ -5,6 +5,8 @@ import base64
 import yaml
 from getpass import getpass
 
+config = None
+
 def gen_fernet_key(pwd:str) -> bytes:
     password = pwd.encode()
     salt = '+6u934mwrWZ7x+7UvMYbSA=='
@@ -27,7 +29,9 @@ def decrypt(str, passwd):
 
 # read yaml file 'config.yaml' into a map
 def read_config():
-    config = None
+    global config
+    if config:
+        return config
     with open('config.yaml', 'r') as f:
         config = yaml.safe_load(f)
     password = getpass()

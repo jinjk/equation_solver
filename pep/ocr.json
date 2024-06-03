@@ -1,0 +1,288 @@
+{
+    "TextDetections": [
+        {
+            "DetectedText": "人民麝育出预社",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 458,
+                    "Y": 11
+                },
+                {
+                    "X": 808,
+                    "Y": 0
+                },
+                {
+                    "X": 810,
+                    "Y": 57
+                },
+                {
+                    "X": 460,
+                    "Y": 70
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":1}}",
+            "ItemPolygon": {
+                "X": 458,
+                "Y": 11,
+                "Width": 350,
+                "Height": 57
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "第一单元",
+            "Confidence": 98,
+            "Polygon": [
+                {
+                    "X": 1160,
+                    "Y": 136
+                },
+                {
+                    "X": 1160,
+                    "Y": 460
+                },
+                {
+                    "X": 1080,
+                    "Y": 460
+                },
+                {
+                    "X": 1080,
+                    "Y": 136
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":3}}",
+            "ItemPolygon": {
+                "X": 1160,
+                "Y": 136,
+                "Width": 324,
+                "Height": 80
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "飞鸟在空中翱翔，虫儿",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 362,
+                    "Y": 374
+                },
+                {
+                    "X": 814,
+                    "Y": 378
+                },
+                {
+                    "X": 814,
+                    "Y": 426
+                },
+                {
+                    "X": 362,
+                    "Y": 423
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":2}}",
+            "ItemPolygon": {
+                "X": 362,
+                "Y": 374,
+                "Width": 452,
+                "Height": 48
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "在花间嬉戏。大自然中，处",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 269,
+                    "Y": 454
+                },
+                {
+                    "X": 812,
+                    "Y": 454
+                },
+                {
+                    "X": 812,
+                    "Y": 504
+                },
+                {
+                    "X": 269,
+                    "Y": 504
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":2}}",
+            "ItemPolygon": {
+                "X": 269,
+                "Y": 454,
+                "Width": 543,
+                "Height": 50
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "处有可爱的生灵。",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 269,
+                    "Y": 532
+                },
+                {
+                    "X": 596,
+                    "Y": 532
+                },
+                {
+                    "X": 596,
+                    "Y": 577
+                },
+                {
+                    "X": 269,
+                    "Y": 577
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":2}}",
+            "ItemPolygon": {
+                "X": 269,
+                "Y": 532,
+                "Width": 327,
+                "Height": 45
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "试着一边读一边想象画面。",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 226,
+                    "Y": 998
+                },
+                {
+                    "X": 617,
+                    "Y": 1001
+                },
+                {
+                    "X": 617,
+                    "Y": 1042
+                },
+                {
+                    "X": 225,
+                    "Y": 1039
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":4}}",
+            "ItemPolygon": {
+                "X": 226,
+                "Y": 998,
+                "Width": 391,
+                "Height": 41
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "体会优美生动的语句。",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 223,
+                    "Y": 1060
+                },
+                {
+                    "X": 548,
+                    "Y": 1060
+                },
+                {
+                    "X": 548,
+                    "Y": 1099
+                },
+                {
+                    "X": 223,
+                    "Y": 1099
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":4}}",
+            "ItemPolygon": {
+                "X": 223,
+                "Y": 1060,
+                "Width": 325,
+                "Height": 39
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "试着把观察到的事物写清楚。",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 223,
+                    "Y": 1120
+                },
+                {
+                    "X": 652,
+                    "Y": 1120
+                },
+                {
+                    "X": 652,
+                    "Y": 1157
+                },
+                {
+                    "X": 223,
+                    "Y": 1157
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":5}}",
+            "ItemPolygon": {
+                "X": 223,
+                "Y": 1120,
+                "Width": 429,
+                "Height": 37
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        },
+        {
+            "DetectedText": "人民都育此倾社",
+            "Confidence": 100,
+            "Polygon": [
+                {
+                    "X": 463,
+                    "Y": 1744
+                },
+                {
+                    "X": 807,
+                    "Y": 1735
+                },
+                {
+                    "X": 808,
+                    "Y": 1790
+                },
+                {
+                    "X": 464,
+                    "Y": 1799
+                }
+            ],
+            "AdvancedInfo": "{\"Parag\":{\"ParagNo\":6}}",
+            "ItemPolygon": {
+                "X": 463,
+                "Y": 1744,
+                "Width": 344,
+                "Height": 55
+            },
+            "Words": [],
+            "WordCoordPoint": []
+        }
+    ],
+    "Language": "zh",
+    "Angel": 359.989990234375,
+    "PdfPageSize": 0,
+    "Angle": 359.989990234375,
+    "RequestId": "22b6df32-5171-43c4-b27d-ab7c9f2d1c01"
+}
