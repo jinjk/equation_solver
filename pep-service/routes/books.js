@@ -18,8 +18,12 @@ router.get('/search', async function (req, res, next) {
           }
         }
       });
-    console.log(result);
-    return res.send(result);
+    console.log(result.hits);
+    return res.send(result.hits.hits);
 });
+
+function res2doc(item) {
+    
+}
 
 module.exports = router;
