@@ -8,7 +8,7 @@ export default {
         return {
             book: null,
             searchRes: null,
-            currentNum: 1
+            currentNum: ref(1)
         }
     },
     async created() {
@@ -21,13 +21,27 @@ export default {
             $('#myCarousel').carousel(0)
             $('#myCarousel').on('slide.bs.carousel', function (event) {
                 let img = $(event.relatedTarget).children("img")
-                img.attr("src", img.attr('data-src'))
+                if (img.attr('src') != img.attr('data-src')) {
+                    img.attr("src", img.attr('data-src'))
+                }
             })
+        });
+
+        this.$emitter.on('show-selected', (item) => {
+            if (this.currentNum == item._source.page) return
+            this.currentNum = item._source.page
+            console.log('page', item._source.page)
+            const lastActive = $('.carousel-item.active')
+            $('#myCarousel').carousel(item._source.page-1)
+            lastActive.removeClass('active')
         })
     },
     methods: {
         imageUrl(page) {
             return `${appConfig.getConfig().serviceUrl}/images/cropped_${page}.jpg`;
+        },
+        isActive(n) {
+            return n == this.currentNum;
         }
     }
 }
@@ -37,7 +51,7 @@ export default {
     <!-- myCarousel start -->
     <div id="myCarousel" class="carousel slide" data-interval="false">
         <div class="carousel-inner">
-            <div v-for="n in book?.pageCount" class="carousel-item" :class="{active: n==currentNum}" >
+            <div v-for="n in book?.pageCount" class="carousel-item" :class="{active: isActive(n)}" >
                 <img :src="imageUrl(n)" :data-src="imageUrl(n)" v-if="n == currentNum">
                 <img :src="imageUrl(n)" :data-src="imageUrl(n)" v-else>
             </div>
