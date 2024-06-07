@@ -125,7 +125,7 @@ export default {
 
 <template>
     <!-- myCarousel start -->
-    <div id="myCarousel" class="carousel slide" data-interval="false">
+    <div id="myCarousel" class="carousel slide sticky-top" data-interval="false">
         <div class="carousel-inner">
             <div :id="['c-item-' + n]" v-for="n in book?.pageCount" class="carousel-item" :class="{active: isActive(n)}" >
                 <img :src="imageUrl(n)" :data-src="imageUrl(n)" v-if="n == currentNum">

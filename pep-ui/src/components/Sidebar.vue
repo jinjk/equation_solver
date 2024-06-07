@@ -32,12 +32,12 @@ export default {
         <div class="sidebar-sticky">
             <div class="nav flex-column">
                 <div class="card nav-item" v-for="item in searchRes">
-                    <a class="nav-link" href="#" @click="selectSearchRes(item)">
+                    <div class="btn-link" @click="selectSearchRes(item)">
                         <div class="card-body">
                             <h5 class="card-title">{{ item._source.text }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">第{{ item._source.page }}页</h6>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
