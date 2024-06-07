@@ -5,12 +5,14 @@ export default {
     data() {
         return {
             searchRes: [],
-            selectedItem: null
+            selectedItem: null,
+            keyword: null
         }
     },
 
     mounted() {
         this.$emitter.on('search', async (keyword) => {
+            this.keyword = keyword
             this.searchRes = await bookProvider.findText(keyword)
             console.log('searchRes', this.searchRes)
         })
@@ -19,7 +21,7 @@ export default {
     methods: {
         selectSearchRes(item) {
             this.selectedItem = item
-            this.$emitter.emit('show-selected', item)
+            this.$emitter.emit('show-selected', item, this.keyword)
         }
     }
 }
