@@ -1,7 +1,8 @@
 <script>
 import bookProvider from '@/features/books/book-provider.js';
 import appConfig from '@/features/config/app-config';
-import { ref } from 'vue';
+
+var bookViewer = null;
 
 function highLightText(count, ctx, canvasSize, imageSize, postion) {
     const scaleX = canvasSize.width / imageSize.width
@@ -59,6 +60,7 @@ export default {
         this.searchRes = await bookProvider.findText('夏天')
     },
     mounted() {
+        bookViewer = this;
         this.$emitter.on("bootstrap-loaded", (data) => {
             console.log('update carousel here')
             $('#myCarousel').carousel(0)
@@ -67,6 +69,8 @@ export default {
                 if (img.attr('src') != img.attr('data-src')) {
                     img.attr("src", img.attr('data-src'))
                 }
+                console.log('slide.bs.carousel', event.to)
+                bookViewer.currentNum = event.to + 1
             })
         });
 
