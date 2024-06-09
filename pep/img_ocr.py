@@ -57,37 +57,35 @@ def read_img(req, client, img):
 
 directory = 'imgs'
 output = 'orc_res'
+
+req = None
+client = None
+
+def read_img_by_index(i):
+    global req, client
+    if req is None or client is None:
+        req, client = create_client()
+    img = f'imgs/cropped_{i}.jpg'
+    if os.path.exists(img):
+        jsonRes = read_img(req, client, img)
+        with open(os.path.join(output, f'cropped_{i}.json'), 'w') as file:
+            if jsonRes:
+                file.write(jsonRes)
+
 if __name__ == '__main__':
-    req, client = create_client()
-    # read files.txt line by line
-    with open('files.txt', 'r') as file:
-        for line in file:
-            filename = line.strip()
-            filename = re.sub('.json$', '.jpg', filename)
-            f = os.path.join(directory, filename)
-            # checking if it is a file
-            if os.path.isfile(f) and re.match('^cropped.*.jpg$', filename):
-                print(f)
-                res = read_img(req, client, f)
-                # save res to a json file 'ocr_res/cropped_*.json'
-                # remove extension of filename
-                filename = re.sub('.jpg$', '', filename)
-                with open(os.path.join(output, f'{filename}.json'), 'w') as file:
-                    if res:
-                        file.write(res)
-            # process each line here
+    read_img_by_index(130)
 
     exit(0)
 
-    for filename in os.listdir(directory):
-        f = os.path.join(directory, filename)
-        # checking if it is a file
-        if os.path.isfile(f) and re.match('^cropped.*.jpg$', filename):
-            print(f)
-            res = read_img(req, client, f)
-            # save res to a json file 'ocr_res/cropped_*.json'
-            # remove extension of filename
-            filename = re.sub('.jpg$', '', filename)
-            with open(os.path.join(output, f'{filename}.json'), 'w') as file:
-                if res:
-                    file.write(res)
+    # for filename in os.listdir(directory):
+    #     f = os.path.join(directory, filename)
+    #     # checking if it is a file
+    #     if os.path.isfile(f) and re.match('^cropped.*.jpg$', filename):
+    #         print(f)
+    #         res = read_img(req, client, f)
+    #         # save res to a json file 'ocr_res/cropped_*.json'
+    #         # remove extension of filename
+    #         filename = re.sub('.jpg$', '', filename)
+    #         with open(os.path.join(output, f'{filename}.json'), 'w') as file:
+    #             if res:
+    #                 file.write(res)
