@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp -rf dist/* '../pep-service/public/'",
     "preview": "vite preview"
   },
   "dependencies": {
