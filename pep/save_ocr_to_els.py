@@ -17,7 +17,7 @@ def create_client():
     return client
 
 def save_json_to_els(client, imgIdx):
-    jsonFile = f"orc_res/cropped_{imgIdx}.json"
+    jsonFile = f"ocr_res/cropped_{imgIdx}.json"
     if os.path.exists(jsonFile):
         try:
             with open(jsonFile, "r", encoding='utf-8') as f:

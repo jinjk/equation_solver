@@ -56,7 +56,7 @@ def read_img(req, client, img):
 
 
 directory = 'imgs'
-output = 'orc_res'
+output = 'ocr_res'
 
 req = None
 client = None
