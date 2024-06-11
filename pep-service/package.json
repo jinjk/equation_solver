@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "DEBUG=* PORT=8080 node ./bin/www"
+    "dev": "DEBUG=* PORT=8080 ELASTIC_HOST=localhost node ./bin/www"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.13.1",

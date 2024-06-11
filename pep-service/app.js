@@ -15,17 +15,18 @@ const fs = require('fs')
 const certificatePath = path.resolve(process.cwd(), 'certs/http_ca.crt');
 
 // create client
-elsPwd = process.env.ELASTIC_PASSWORD
+const elsApiKey = process.env.ELASTIC_APIKEY
+const elsHost = process.env.ELASTIC_HOST ? process.env.ELASTIC_HOST : 'es01'
 const elsClient = new Client({
-  node: 'https://localhost:9200',
+  node: `https://${elsHost}:9200`,
   // set path of http_ca.crt
   tls: {
-    ca: fs.readFileSync(certificatePath)
+    ca: fs.readFileSync(certificatePath),
+    rejectUnauthorized: false
   },
   // set username password
   auth: {
-    username: 'elastic',
-    password: elsPwd
+    apiKey: elsApiKey
   }
 })
 
