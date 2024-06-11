@@ -65,4 +65,14 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
+function shutdown() {
+  console.log('Shutting down server')
+  elsClient.close()
+  process.exit()
+}
+
+
 module.exports = app;
