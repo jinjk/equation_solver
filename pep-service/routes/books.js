@@ -10,13 +10,20 @@ router.get('/search', async function (req, res, next) {
     const elsClient = req.app.get('elsClient');
     result = await elsClient.search({
       index: 'pep_books',
+      size: 300,
       sort: ['page'],
       query: {
-        match: {
-          text: {
-            query: text,
-            operator: 'and'
-          }
+        bool: {
+          must: {
+            match_phrase: {
+              text: text
+            }
+          },
+          filter: {
+            range: {
+              page: { gte: 7 }
+            }
+          },
         }
       }
     });
