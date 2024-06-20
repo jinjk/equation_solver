@@ -133,7 +133,7 @@ export default {
         <div class="carousel-inner">
             <div :id="['c-item-' + n]" v-for="n in book?.pageCount" class="carousel-item" :class="{active: isActive(n)}" >
                 <img :src="imageUrl(n)" :data-src="imageUrl(n)" v-if="n == currentNum">
-                <img :src="imageUrl(n)" :data-src="imageUrl(n)" v-else>
+                <img :data-src="imageUrl(n)" v-else>
             </div>
         </div>
         <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
