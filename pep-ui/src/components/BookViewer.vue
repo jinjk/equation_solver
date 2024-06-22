@@ -50,6 +50,7 @@ export default {
         return {
             book: null,
             searchRes: null,
+            currentItem: null,
             currentNum: 1,
             keyword: null,
             currentText: null
@@ -57,7 +58,6 @@ export default {
     },
     async created() {
         this.book = await bookProvider.getBookInfo();
-        this.searchRes = await bookProvider.findText('夏天')
     },
     mounted() {
         bookViewer = this;
@@ -65,16 +65,13 @@ export default {
             console.log('update carousel here')
             $('#myCarousel').carousel(0)
             $('#myCarousel').on('slide.bs.carousel', function (event) {
-                const img = $(event.relatedTarget).children("img")
-                if (img.attr('src') != img.attr('data-src')) {
-                    img.attr("src", img.attr('data-src'))
-                }
                 console.log('slide.bs.carousel', event.to)
                 bookViewer.currentNum = event.to + 1
             })
         });
 
         this.$emitter.on('show-selected', (item, keyword) => {
+            this.currentItem = item
             if (this.keyword != keyword) {
                 this.keyword = keyword
                 $(`#myCarousel canvas`).each((i, el) => {
@@ -88,7 +85,28 @@ export default {
                 $('#myCarousel').carousel(item._source.page-1)
                 lastActive.removeClass('active')
             }
+            else {
+                this.showCanvas()
+            }
             /* ------------------ draw highlight line -------------------- */
+        });
+
+        $( window ).on( "resize", () => {
+            resizeCanvas();
+        });
+    },
+    methods: {
+        imageUrl(page) {
+            return `${appConfig.getConfig().serviceUrl}/images/cropped_${page}.jpg`;
+        },
+        isActive(n) {
+            return n == this.currentNum;
+        },
+        showCanvas() {
+            const item = this.currentItem
+            if (item == null || item._source.page != this.currentNum) {
+                return
+            }
             const img = $(`#c-item-${item._source.page} img`)
             let canvas = $(`#c-item-${item._source.page} canvas`)
             if (canvas.length == 0) {
@@ -110,18 +128,6 @@ export default {
 
             highLightText(6, ctx, {width: iEle.width, height: iEle.height},
                     {width: iEle.naturalWidth, height: iEle.naturalHeight}, item._source.Polygon)
-        });
-
-        $( window ).on( "resize", () => {
-            resizeCanvas();
-        });
-    },
-    methods: {
-        imageUrl(page) {
-            return `${appConfig.getConfig().serviceUrl}/images/cropped_${page}.jpg`;
-        },
-        isActive(n) {
-            return n == this.currentNum;
         }
     }
 }
@@ -132,8 +138,8 @@ export default {
     <div id="myCarousel" class="carousel slide sticky-top" data-interval="false">
         <div class="carousel-inner">
             <div :id="['c-item-' + n]" v-for="n in book?.pageCount" class="carousel-item" :class="{active: isActive(n)}" >
-                <img :src="imageUrl(n)" :data-src="imageUrl(n)" v-if="n == currentNum">
-                <img :data-src="imageUrl(n)" v-else>
+                <img :src="imageUrl(n)" @load="showCanvas()" v-if="n == currentNum">
+                <img v-else>
             </div>
         </div>
         <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
